@@ -7,7 +7,7 @@
 
 import UIKit
 import WebKit
-class ViewController: UIViewController, WKNavigationDelegate {
+class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 
     @IBOutlet weak var addressField: UITextField!
     @IBOutlet weak var webView: WKWebView!
@@ -15,17 +15,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        webView = WKWebView()
+        //webView = WKWebView()
         webView.navigationDelegate = self
-        self.mainView = webView!
-        webView.allowsBackForwardNavigationGestures = true
-        
+        webView.uiDelegate = self
         
 
         
         let url = URL(string: "https://phoronix.com")!
         let urlRequest = URLRequest(url: url)
         webView.load(urlRequest)
+        webView.allowsBackForwardNavigationGestures = true
         
         // Do any additional setup after loading the view.
     }
@@ -33,9 +32,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
         //webView.reload()
     }
     @IBAction func endEditing(_ sender: Any) {
-        let url = URL(string: addressField.text!)!
-        let urlRequest = URLRequest(url: url)
-        webView.load(urlRequest)
+        if let url = addressField.text{
+            let url = URL(string: addressField.text!)!
+            let urlRequest = URLRequest(url: url)
+            webView.load(urlRequest)
+        }
     }
     
 }
